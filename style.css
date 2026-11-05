@@ -159,7 +159,7 @@ html, body {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 .cell .x::after { transform: translate(-50%, -50%) rotate(-45deg); }
-.cell.conflict { background-image: repeating-linear-gradient(45deg, rgba(232,96,76,0.28) 0 6px, rgba(232,96,76,0.12) 6px 12px); }
+.cell.conflict { background-image: repeating-linear-gradient(45deg, rgba(232,96,76,0.45) 0 7px, rgba(232,96,76,0.15) 7px 14px); box-shadow: inset 0 0 0 3px var(--red); }
 .cell.conflict img { animation: wobble 0.5s ease-in-out infinite; }
 .cell.hinted { box-shadow: inset 0 0 0 4px var(--yellow); }
 .cell.won img { animation: bounce 0.6s ease-in-out; }

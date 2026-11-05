@@ -261,7 +261,7 @@
     for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) {
       var d = document.createElement('div');
       d.className = 'cell';
-      d.style.background = REGION_COLORS[DEMO_REGIONS[r][c]];
+      d.style.backgroundColor = REGION_COLORS[DEMO_REGIONS[r][c]];
       if (r === 0 || DEMO_REGIONS[r - 1][c] !== DEMO_REGIONS[r][c]) d.classList.add('bt');
       if (r === 3 || DEMO_REGIONS[r + 1][c] !== DEMO_REGIONS[r][c]) d.classList.add('bb');
       if (c === 0 || DEMO_REGIONS[r][c - 1] !== DEMO_REGIONS[r][c]) d.classList.add('bl');
@@ -321,7 +321,7 @@
       for (var c = 0; c < n; c++) {
         var d = document.createElement('div');
         d.className = 'cell';
-        d.style.background = REGION_COLORS[reg[r][c] % REGION_COLORS.length];
+        d.style.backgroundColor = REGION_COLORS[reg[r][c] % REGION_COLORS.length];
         if (r === 0 || reg[r - 1][c] !== reg[r][c]) d.classList.add('bt');
         if (r === n - 1 || reg[r + 1][c] !== reg[r][c]) d.classList.add('bb');
         if (c === 0 || reg[r][c - 1] !== reg[r][c]) d.classList.add('bl');
