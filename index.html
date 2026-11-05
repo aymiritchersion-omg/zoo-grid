@@ -13,7 +13,7 @@
     <div class="tag tag-goal"><img id="goal-img" alt=""><span id="goal-text">Place 5</span></div>
     <div class="tag tag-time"><span class="lbl">Time</span><span id="time">0:00</span></div>
   </div>
-  <div id="rule">One <span id="rule-animal">pig</span> in every row, column and color. None may touch, not even diagonally.</div>
+  <div id="rule"><span>One <span id="rule-animal">pig</span> in every row, column and color. None may touch, not even diagonally.</span><button id="btn-help" class="help" aria-label="How to play">?</button></div>
   <div id="board-wrap">
     <div id="board"></div>
     <div id="overlay" class="hidden">
@@ -46,6 +46,19 @@
       </button>
     </div>
     <button id="btn-restart" class="btn btn-icon" aria-label="New puzzle">&#8635;</button>
+  </div>
+  <div id="help" class="hidden">
+    <div class="card help-card">
+      <div class="card-title help-title">How to play</div>
+      <div id="demo"></div>
+      <ol class="help-list">
+        <li>Put <b>one animal in every row, every column and every color block</b>.</li>
+        <li>Animals <b>never touch</b>, not even at the corners.</li>
+        <li><b>Tap</b> a square once for an X (ruled out), twice for an animal, three times to clear. <b>Drag</b> to X a whole row.</li>
+      </ol>
+      <div class="help-tip">Tip: start with the smallest color block.</div>
+      <button id="btn-help-close" class="btn btn-big">Got it</button>
+    </div>
   </div>
   <input type="checkbox" switch id="haptic-switch" class="haptic-switch" aria-hidden="true" tabindex="-1">
 </div>

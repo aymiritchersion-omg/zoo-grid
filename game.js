@@ -151,6 +151,7 @@
   var btnNext = $('btn-next'), btnDailyDone = $('btn-daily-done');
   var btnMute = $('btn-mute'), btnUndo = $('btn-undo'), btnHint = $('btn-hint'), btnClear = $('btn-clear'), btnDaily = $('btn-daily'), btnRestart = $('btn-restart');
   var elHintCount = $('hint-count');
+  var elHelp = $('help'), elDemo = $('demo'), btnHelp = $('btn-help'), btnHelpClose = $('btn-help-close');
   var stage = $('stage');
   var elToast = document.createElement('div'); elToast.id = 'toast'; $('board-wrap').appendChild(elToast);
 
@@ -250,6 +251,39 @@
   }
   function dailyKey() { return 'daily-' + dailySeed(); }
   function imgSrc(name) { return 'assets/animals/' + name + '.png'; }
+
+  // ---------- Help card (first launch, and the ? button) ----------
+  var DEMO_REGIONS = [[0, 0, 0, 1], [2, 2, 3, 1], [2, 3, 3, 1], [2, 3, 3, 1]];
+  var DEMO_SOLUTION = [1, 3, 0, 2];       // column of the animal in each row
+  var helpOpenedAt = 0;
+  function buildDemo() {
+    elDemo.innerHTML = '';
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 4; c++) {
+      var d = document.createElement('div');
+      d.className = 'cell';
+      d.style.background = REGION_COLORS[DEMO_REGIONS[r][c]];
+      if (r === 0 || DEMO_REGIONS[r - 1][c] !== DEMO_REGIONS[r][c]) d.classList.add('bt');
+      if (r === 3 || DEMO_REGIONS[r + 1][c] !== DEMO_REGIONS[r][c]) d.classList.add('bb');
+      if (c === 0 || DEMO_REGIONS[r][c - 1] !== DEMO_REGIONS[r][c]) d.classList.add('bl');
+      if (c === 3 || DEMO_REGIONS[r][c + 1] !== DEMO_REGIONS[r][c]) d.classList.add('br');
+      if (DEMO_SOLUTION[r] === c) { var img = document.createElement('img'); img.src = imgSrc(animal); img.alt = ''; d.appendChild(img); }
+      else { var x = document.createElement('div'); x.className = 'x'; d.appendChild(x); }
+      elDemo.appendChild(d);
+    }
+  }
+  function openHelp() {
+    buildDemo();
+    helpOpenedAt = performance.now();
+    elHelp.classList.remove('hidden');
+  }
+  function closeHelp() {
+    if (helpOpenedAt && !solved) startAt += performance.now() - helpOpenedAt;   // the clock does not run while reading
+    helpOpenedAt = 0;
+    elHelp.classList.add('hidden');
+    try { localStorage.setItem('zoogrid_seen', '1'); } catch (e) {}
+  }
+  btnHelp.addEventListener('click', openHelp);
+  btnHelpClose.addEventListener('click', closeHelp);
 
   // ---------- Level flow ----------
   function startLevel() {
@@ -465,5 +499,8 @@
   }).then(function () {
     sdkCall('game.loadingStop');
     startLevel();
+    var seen = false;
+    try { seen = localStorage.getItem('zoogrid_seen') === '1'; } catch (e) {}
+    if (!seen) openHelp();
   });
 })();
