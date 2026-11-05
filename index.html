@@ -4,26 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Zoo Grid</title>
-<link rel="stylesheet" href="style.css?v=1793898002">
+<link rel="stylesheet" href="style.css?v=1793898126">
 </head>
 <body>
 <div id="stage">
   <div id="hud">
-    <div class="tag tag-level"><span class="lbl" id="level-lbl">Level</span><span id="level">1</span></div>
+    <div class="tag tag-level"><span class="lbl" id="level-lbl" data-i18n="level">Level</span><span id="level">1</span></div>
     <div class="tag tag-goal"><img id="goal-img" alt=""><span id="goal-text">Place 5</span></div>
-    <div class="tag tag-time"><span class="lbl">Time</span><span id="time">0:00</span></div>
+    <div class="tag tag-time"><span class="lbl" data-i18n="time">Time</span><span id="time">0:00</span></div>
   </div>
-  <div id="rule"><span>One <span id="rule-animal">pig</span> in every row, column and color. None may touch, not even diagonally.</span><button id="btn-help" class="help" aria-label="How to play">?</button></div>
+  <div id="rule"><span id="rule-text"></span><button id="btn-help" class="help" aria-label="How to play">?</button></div>
   <div id="board-wrap">
     <div id="board"></div>
     <div id="overlay" class="hidden">
       <div class="card">
-        <div class="card-title">Solved!</div>
-        <div class="card-row"><span class="lbl">Time</span><span id="final-time">0:00</span></div>
-        <div id="best-badge" class="badge hidden">New best!</div>
+        <div class="card-title" data-i18n="solved">Solved!</div>
+        <div class="card-row"><span class="lbl" data-i18n="time">Time</span><span id="final-time">0:00</span></div>
+        <div id="best-badge" class="badge hidden" data-i18n="newBest">New best!</div>
         <div class="card-btns">
-          <button id="btn-next" class="btn btn-big">Next level</button>
-          <button id="btn-daily-done" class="btn btn-big alt hidden">Back to levels</button>
+          <button id="btn-next" class="btn btn-big" data-i18n="next">Next level</button>
+          <button id="btn-daily-done" class="btn btn-big alt hidden" data-i18n="backToLevels">Back to levels</button>
         </div>
       </div>
     </div>
@@ -49,19 +49,19 @@
   </div>
   <div id="help" class="hidden">
     <div class="card help-card">
-      <div class="card-title help-title">How to play</div>
+      <div class="card-title help-title" data-i18n="howTitle">How to play</div>
       <div id="demo"></div>
       <ol class="help-list">
-        <li>Put <b>one animal in every row, every column and every color block</b>.</li>
-        <li>Animals <b>never touch</b>, not even at the corners.</li>
-        <li><b>Tap</b> a square once for an X (ruled out), twice for an animal, three times to clear. <b>Drag</b> to X a whole row.</li>
+        <li data-i18n-html="how1"></li>
+        <li data-i18n-html="how2"></li>
+        <li data-i18n-html="how3"></li>
       </ol>
-      <div class="help-tip">Tip: start with the smallest color block.</div>
-      <button id="btn-help-close" class="btn btn-big">Got it</button>
+      <div class="help-tip" data-i18n="howTip">Tip: start with the smallest color block.</div>
+      <button id="btn-help-close" class="btn btn-big" data-i18n="gotIt">Got it</button>
     </div>
   </div>
   <input type="checkbox" switch id="haptic-switch" class="haptic-switch" aria-hidden="true" tabindex="-1">
 </div>
-<script src="game.js?v=1793898002"></script>
+<script src="game.js?v=1793898126"></script>
 </body>
 </html>

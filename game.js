@@ -143,10 +143,59 @@
     return null;
   }
 
+
+  // ---------- Language (auto: Chinese system -> Chinese, otherwise English; ?lang=zh forces) ----------
+  var STR = {
+    en: {
+      level: 'Level', daily: 'Daily', time: 'Time', place: 'Place {n}',
+      rule: 'One {animal} in every row, column and color. None may touch, not even diagonally.',
+      solved: 'Solved!', newBest: 'New best!', next: 'Next level', backToLevels: 'Back to levels',
+      howTitle: 'How to play',
+      how1: 'Put <b>one animal in every row, every column and every color block</b>.',
+      how2: 'Animals <b>never touch</b>, not even at the corners.',
+      how3: '<b>Tap</b> a square once for an X (ruled out), twice for an animal, three times to clear. <b>Drag</b> to X a whole row.',
+      howTip: 'Tip: start with the smallest color block.', gotIt: 'Got it',
+      wrongOne: 'That one was wrong', dailyDone: 'Daily done in {t}',
+      animals: { pig: 'pig', chick: 'chick', frog: 'frog', duck: 'duck', penguin: 'penguin', panda: 'panda', owl: 'owl', rabbit: 'rabbit', cow: 'cow', monkey: 'monkey', elephant: 'elephant', hippo: 'hippo', bear: 'bear', parrot: 'parrot', sloth: 'sloth', zebra: 'zebra' }
+    },
+    zh: {
+      level: '关卡', daily: '每日', time: '用时', place: '放 {n} 只',
+      rule: '每行、每列、每种颜色里各放一只{animal}，任何两只不能挨着，斜角也不行。',
+      solved: '过关！', newBest: '新纪录！', next: '下一关', backToLevels: '回到关卡',
+      howTitle: '怎么玩',
+      how1: '<b>每一行、每一列、每一块颜色</b>里都要放且只放一只动物。',
+      how2: '任何两只动物<b>不能挨着</b>，斜角贴着也不行。',
+      how3: '<b>点一下</b>格子打叉（表示排除），<b>再点</b>放动物，<b>第三下</b>清空。<b>按住拖动</b>可以连续打叉。',
+      howTip: '小技巧：先从最小的那块颜色下手。', gotIt: '知道了',
+      wrongOne: '这只放错了', dailyDone: '今日题已完成，用时 {t}',
+      animals: { pig: '小猪', chick: '小鸡', frog: '青蛙', duck: '鸭子', penguin: '企鹅', panda: '熊猫', owl: '猫头鹰', rabbit: '兔子', cow: '奶牛', monkey: '猴子', elephant: '大象', hippo: '河马', bear: '小熊', parrot: '鹦鹉', sloth: '树懒', zebra: '斑马' }
+    }
+  };
+  var lang = 'en';
+  (function () {
+    var q = /[?&]lang=(zh|en)/.exec(location.search);
+    if (q) { lang = q[1]; return; }
+    var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (nav.indexOf('zh') === 0) lang = 'zh';
+  })();
+  function t(key, vars) {
+    var str = (STR[lang] && STR[lang][key]) || STR.en[key] || key;
+    if (vars) for (var k in vars) str = str.replace('{' + k + '}', vars[k]);
+    return str;
+  }
+  function animalName(name) { return (STR[lang].animals && STR[lang].animals[name]) || name; }
+  function applyLanguage() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++) els[i].textContent = t(els[i].getAttribute('data-i18n'));
+    var hs = document.querySelectorAll('[data-i18n-html]');
+    for (var j = 0; j < hs.length; j++) hs[j].innerHTML = t(hs[j].getAttribute('data-i18n-html'));
+  }
+
   // ---------- DOM ----------
   var $ = function (id) { return document.getElementById(id); };
   var elBoard = $('board'), elLevel = $('level'), elLevelLbl = $('level-lbl'), elTime = $('time');
-  var elGoalImg = $('goal-img'), elGoalText = $('goal-text'), elRuleAnimal = $('rule-animal');
+  var elGoalImg = $('goal-img'), elGoalText = $('goal-text'), elRuleText = $('rule-text');
   var elOverlay = $('overlay'), elFinalTime = $('final-time'), elBestBadge = $('best-badge');
   var btnNext = $('btn-next'), btnDailyDone = $('btn-daily-done');
   var btnMute = $('btn-mute'), btnUndo = $('btn-undo'), btnHint = $('btn-hint'), btnClear = $('btn-clear'), btnDaily = $('btn-daily'), btnRestart = $('btn-restart');
@@ -291,16 +340,16 @@
     if (daily) {
       n = 7; puzzle = makePuzzle(n, dailySeed() * 7 + 13);
       animal = ANIMALS[dailySeed() % ANIMALS.length];
-      elLevelLbl.textContent = 'Daily'; elLevel.textContent = (new Date().getMonth() + 1) + '/' + new Date().getDate();
+      elLevelLbl.textContent = t('daily'); elLevel.textContent = (new Date().getMonth() + 1) + '/' + new Date().getDate();
     } else {
       n = sizeForLevel(level); puzzle = makePuzzle(n, 1000 + level * 7919);
       animal = ANIMALS[(level - 1) % ANIMALS.length];
-      elLevelLbl.textContent = 'Level'; elLevel.textContent = level;
+      elLevelLbl.textContent = t('level'); elLevel.textContent = level;
     }
     for (var extra = 1; !puzzle && extra <= 6; extra++) puzzle = makePuzzle(n, (daily ? dailySeed() : 1000 + level * 7919) + extra * 101);   // same fallback for everyone
     grid = []; for (var r = 0; r < n; r++) { grid.push([]); for (var c = 0; c < n; c++) grid[r].push(0); }
-    elGoalImg.src = imgSrc(animal); elGoalText.textContent = 'Place ' + n;
-    elRuleAnimal.textContent = animal;
+    elGoalImg.src = imgSrc(animal); elGoalText.textContent = t('place', { n: n });
+    elRuleText.innerHTML = t('rule', { animal: '<b>' + animalName(animal) + '</b>' });
     buildBoard();
     renderTools();
     elOverlay.classList.add('hidden');
@@ -409,7 +458,7 @@
     // first fix a wrongly placed animal, otherwise reveal a correct one
     var sol = puzzle.solution;
     for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
-      if (grid[r][c] === 2 && sol[r] !== c) { hints--; setCell(r, c, 1); cells[r][c].classList.add('hinted'); sfxHint(); toast('That one was wrong'); afterChange(); return; }
+      if (grid[r][c] === 2 && sol[r] !== c) { hints--; setCell(r, c, 1); cells[r][c].classList.add('hinted'); sfxHint(); toast(t('wrongOne')); afterChange(); return; }
     }
     var open = [];
     for (var r2 = 0; r2 < n; r2++) if (grid[r2][sol[r2]] !== 2) open.push(r2);
@@ -478,7 +527,7 @@
   btnDailyDone.addEventListener('click', function () { daily = false; startLevel(); });
   btnDaily.addEventListener('click', function () {
     daily = !daily;
-    if (daily && best[dailyKey()]) { toast('Daily done in ' + fmt(best[dailyKey()])); }
+    if (daily && best[dailyKey()]) { toast(t('dailyDone', { t: fmt(best[dailyKey()]) })); }
     startLevel();
   });
   btnRestart.addEventListener('click', function () { if (solved && !daily) { startLevel(); return; } clearBoard(); });
@@ -490,7 +539,7 @@
   window.addEventListener('resize', fitStage);
 
   // ---------- Boot ----------
-  load(); renderMute(); fitStage();
+  load(); renderMute(); fitStage(); applyLanguage();
   initSDK().then(function () {
     sdkCall('game.loadingStart');
     var pre = ANIMALS.map(function (a) { return new Promise(function (res) { var i = new Image(); i.onload = res; i.onerror = res; i.src = imgSrc(a); }); });

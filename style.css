@@ -26,7 +26,7 @@ html, body {
   background: var(--paper);
   background-image: radial-gradient(var(--paper-dot) 1.2px, transparent 1.3px);
   background-size: 18px 18px;
-  font-family: "Fredoka", "Trebuchet MS", "Segoe UI", sans-serif;
+  font-family: "Fredoka", "Trebuchet MS", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   color: var(--ink);
   user-select: none;
   -webkit-user-select: none;
@@ -101,7 +101,7 @@ html, body {
   padding: 6px 44px 8px;
   min-height: 46px;
 }
-#rule span { color: var(--ink); }
+#rule b { color: var(--ink); }
 
 /* ---------- Board ---------- */
 #board-wrap {
