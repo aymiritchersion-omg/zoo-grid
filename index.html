@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Zoo Grid</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <div id="hud">
+    <div class="tag tag-level"><span class="lbl" id="level-lbl">Level</span><span id="level">1</span></div>
+    <div class="tag tag-goal"><img id="goal-img" alt=""><span id="goal-text">Place 5</span></div>
+    <div class="tag tag-time"><span class="lbl">Time</span><span id="time">0:00</span></div>
+  </div>
+  <div id="rule">One <span id="rule-animal">pig</span> in every row, column and color. None may touch, not even diagonally.</div>
+  <div id="board-wrap">
+    <div id="board"></div>
+    <div id="overlay" class="hidden">
+      <div class="card">
+        <div class="card-title">Solved!</div>
+        <div class="card-row"><span class="lbl">Time</span><span id="final-time">0:00</span></div>
+        <div id="best-badge" class="badge hidden">New best!</div>
+        <div class="card-btns">
+          <button id="btn-next" class="btn btn-big">Next level</button>
+          <button id="btn-daily-done" class="btn btn-big alt hidden">Back to levels</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <button id="btn-mute" class="btn btn-icon" aria-label="Sound">&#9835;</button>
+    <div id="tools">
+      <button id="btn-undo" class="btn tool" aria-label="Undo">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M12 9 5 15l7 6" fill="none" stroke="#3f2d20" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 15h13a7 7 0 0 1 0 14h-4" fill="none" stroke="#3f2d20" stroke-width="3" stroke-linecap="round"/></svg>
+      </button>
+      <button id="btn-hint" class="btn tool" aria-label="Hint">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M16 3a9 9 0 0 0-5 16.5V23h10v-3.5A9 9 0 0 0 16 3z" fill="#f7c948" stroke="#3f2d20" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 26h8M13 29h6" stroke="#3f2d20" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="count" id="hint-count">3</span>
+      </button>
+      <button id="btn-clear" class="btn tool" aria-label="Clear board">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M6 9h20M12 9V6h8v3M9 9l1.5 17h11L23 9" fill="none" stroke="#3f2d20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="btn-daily" class="btn tool" aria-label="Daily puzzle">
+        <svg viewBox="0 0 32 32" width="26" height="26"><rect x="4" y="7" width="24" height="21" rx="3" fill="#a9dcef" stroke="#3f2d20" stroke-width="2.4"/><path d="M4 13h24M10 4v5M22 4v5" stroke="#3f2d20" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="20" r="3" fill="#e8604c"/></svg>
+      </button>
+    </div>
+    <button id="btn-restart" class="btn btn-icon" aria-label="New puzzle">&#8635;</button>
+  </div>
+  <input type="checkbox" switch id="haptic-switch" class="haptic-switch" aria-hidden="true" tabindex="-1">
+</div>
+<script src="game.js"></script>
+</body>
+</html>
