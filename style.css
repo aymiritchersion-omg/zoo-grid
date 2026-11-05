@@ -94,13 +94,11 @@ html, body {
 #rule {
   position: relative;
   text-align: center;
-  padding-right: 44px;
-  padding-left: 44px;
   font-size: 15px;
   font-weight: 600;
   color: var(--ink-soft);
   line-height: 1.25;
-  padding: 6px 6px 8px;
+  padding: 6px 44px 8px;
   min-height: 46px;
 }
 #rule span { color: var(--ink); }
